@@ -47,9 +47,9 @@ about:
   dev_url: https://github.com/hvac/hvac
 
 extra:
+  only-lint:
+    - missing_source
   anaconda-services:
     ref: general 
     recipe-maintainers:
       - ianaobi
-  recipe-maintainers:
-    - mariusvniekerk
