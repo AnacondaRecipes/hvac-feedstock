@@ -19,9 +19,11 @@ requirements:
     - pip
     - python >=3.6
     - requests >=2.21.0
+    - six
   run:
     - python >=3.6
     - requests >=2.21.0
+    - six
 
 test:
   imports:
