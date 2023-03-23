@@ -19,9 +19,11 @@ requirements:
     - pip
     - python >=3.6
     - requests >=2.21.0
+    - six
   run:
     - python >=3.6
     - requests >=2.21.0
+    - six
 
 test:
   imports:
@@ -47,5 +49,9 @@ about:
   dev_url: https://github.com/hvac/hvac
 
 extra:
-  recipe-maintainers:
-    - mariusvniekerk
+  only-lint:
+    - missing_source
+  anaconda-services:
+    ref: general 
+    recipe-maintainers:
+      - ianaobi
