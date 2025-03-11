@@ -12,7 +12,7 @@ source:
 build:
   number: 0
   skip: True  # [py<38]
-  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed
 
 requirements:
   host:
@@ -59,6 +59,11 @@ about:
   license_family: APACHE
   license_file: LICENSE.txt
   summary: HashiCorp Vault API client
+  description: |
+    A HashiCorp Vault Python client is used to interact with a Vault server programmatically,
+    allowing secure storage, retrieval, and management of secrets like API keys, passwords,
+    and certificates. It enables authentication, secret fetching, dynamic secrets generation,
+    and encryption operations within Python applications.
   doc_url: https://hvac.readthedocs.io/
   dev_url: https://github.com/hvac/hvac
 
