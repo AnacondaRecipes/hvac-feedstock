@@ -1,5 +1,5 @@
 {% set name = "hvac" %}
-{% set version = "0.11.2" %}
+{% set version = "2.3.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,23 +7,27 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: f905c59d32d88d3f67571fe5a8a78de4659e04798ad809de439f667247d13626
+  sha256: 1b85e3320e8642dd82f234db63253cda169a817589e823713dc5fca83119b1e2
 
 build:
   number: 0
-  noarch: python
-  script: '{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv '
+  skip: True  # [py<38]
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed
 
 requirements:
   host:
+    - python
     - pip
-    - python >=3.6
-    - requests >=2.21.0
+    - poetry-core >=1.0.0
   run:
-    - python >=3.6
-    - requests >=2.21.0
+    - python
+    - requests >=2.27.1,<3.0.0
+  run_constrained:
+    - pyhcl >=0.4.4,<0.5.0
 
 test:
+  source_files:
+    - tests
   imports:
     - hvac
     - hvac.api
@@ -34,8 +38,19 @@ test:
     - hvac.v1
   requires:
     - pip
+    - pytest
+    - parameterized
+    - requests-mock
+    - pytest-mock
+    - werkzeug
+    - flask
+    - flask-sqlalchemy
   commands:
     - pip check
+    # missing pyhcl and ldap*
+    {% set ignore_tests = " --ignore=tests/integration_tests/api/" %}
+    {% set ignore_tests = ignore_tests + " --ignore=tests/integration_tests/v1/" %}
+    - pytest tests -v {{ ignore_tests }}
 
 about:
   home: https://python-hvac.org/
@@ -43,7 +58,12 @@ about:
   license_family: APACHE
   license_file: LICENSE.txt
   summary: HashiCorp Vault API client
-  doc_url: https://hvac.readthedocs.io/en/latest/?badge=latest
+  description: |
+    A HashiCorp Vault Python client is used to interact with a Vault server programmatically,
+    allowing secure storage, retrieval, and management of secrets like API keys, passwords,
+    and certificates. It enables authentication, secret fetching, dynamic secrets generation,
+    and encryption operations within Python applications.
+  doc_url: https://hvac.readthedocs.io/
   dev_url: https://github.com/hvac/hvac
 
 extra:
